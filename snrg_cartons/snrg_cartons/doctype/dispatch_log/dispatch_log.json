@@ -25,7 +25,8 @@
   "linked_documents_section",
   "status",
   "delivery_note",
-  "sales_invoice"
+  "sales_invoice",
+  "create_delivery_note"
  ],
  "fields": [
   {
@@ -162,6 +163,12 @@
    "label": "Sales invoice",
    "options": "Sales Invoice",
    "read_only": 0
+  },
+  {
+   "default": "0",
+   "fieldname": "create_delivery_note",
+   "fieldtype": "Check",
+   "label": "Create Delivery Note on Submit?"
   }
  ],
  "index_web_pages_for_search": 1,

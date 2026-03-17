@@ -6,8 +6,10 @@ class DispatchLog(Document):
 	def on_submit(self):
 		self.validate_carton_status()
 		self.calculate_totals()
-		self.create_delivery_note()
-		self.create_sales_invoice()
+		
+		if self.create_delivery_note:
+			self.create_delivery_note_doc()
+			
 		self.update_carton_box_logs()
 		self.db_set('status', 'Submitted')
 
@@ -32,7 +34,7 @@ class DispatchLog(Document):
 		self.db_set('total_pieces', total_pieces)
 		self.db_set('total_gross_weight', total_gross_weight)
 
-	def create_delivery_note(self):
+	def create_delivery_note_doc(self):
 		dn = frappe.new_doc("Delivery Note")
 		dn.customer = self.customer
 		dn.posting_date = self.dispatch_date
@@ -57,38 +59,21 @@ class DispatchLog(Document):
 		dn.flags.ignore_permissions = True
 		dn.insert(ignore_permissions=True)
 
-		# Allow negative stock temporarily for this transaction
+		# Allow negative stock temporarily for this transaction if needed
 		frappe.flags.allow_negative_stock = True
 		dn.submit()
 		frappe.flags.allow_negative_stock = False
+		
 		self.db_set("delivery_note", dn.name)
-
-	def create_sales_invoice(self):
-		dn_name = frappe.db.get_value("Dispatch Log", self.name, "delivery_note")
-		if not dn_name:
-			return
-
-		try:
-			from erpnext.stock.doctype.delivery_note.delivery_note import make_sales_invoice
-			si = make_sales_invoice(dn_name)
-			si.flags.ignore_permissions = True
-			si.insert()
-			si.submit()
-			self.db_set("sales_invoice", si.name)
-		except Exception as e:
-			frappe.log_error(f"Sales Invoice creation failed for {self.name}: {str(e)}")
-			frappe.msgprint(f"Delivery Note {dn_name} was created but Sales Invoice could not be auto-created. Please create it manually.", indicator="orange", alert=True)
 
 	def update_carton_box_logs(self):
 		dn_name = frappe.db.get_value("Dispatch Log", self.name, "delivery_note")
-		si_name = frappe.db.get_value("Dispatch Log", self.name, "sales_invoice")
 
 		for row in self.cartons:
 			frappe.db.set_value("Carton Box Log", row.carton_id, {
 				"status": "Dispatched",
 				"dispatch_log": self.name,
 				"delivery_note": dn_name or "",
-				"sales_invoice": si_name or "",
 				"customer": self.customer,
 				"dispatched_date": self.dispatch_date
 			})

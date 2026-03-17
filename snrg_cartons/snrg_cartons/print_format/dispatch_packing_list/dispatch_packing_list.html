@@ -20,10 +20,6 @@
 		width: auto;
 	}
 
-	.packing-list .pl-header .company-info {
-		flex: 1;
-	}
-
 	.packing-list .pl-header .company-name {
 		font-size: 14pt;
 		font-weight: 900;
@@ -44,7 +40,6 @@
 		padding: 4px 0;
 	}
 
-	/* Dispatch info grid */
 	.packing-list .dispatch-info {
 		display: table;
 		width: 100%;
@@ -52,9 +47,7 @@
 		border-collapse: collapse;
 	}
 
-	.packing-list .dispatch-info .di-row {
-		display: table-row;
-	}
+	.packing-list .dispatch-info .di-row { display: table-row; }
 
 	.packing-list .dispatch-info .di-cell {
 		display: table-cell;
@@ -63,19 +56,18 @@
 		width: 25%;
 	}
 
-	.packing-list .dispatch-info .di-label {
+	.packing-list .di-label {
 		font-size: 7pt;
 		color: #777;
 		text-transform: uppercase;
 		font-weight: 700;
 	}
 
-	.packing-list .dispatch-info .di-value {
+	.packing-list .di-value {
 		font-size: 9pt;
 		font-weight: 700;
 	}
 
-	/* Carton detail - each carton block */
 	.packing-list .carton-block {
 		margin-bottom: 8px;
 		page-break-inside: avoid;
@@ -92,9 +84,7 @@
 		align-items: center;
 	}
 
-	.packing-list .carton-header .ch-left {
-		font-size: 10pt;
-	}
+	.packing-list .carton-header .ch-left { font-size: 10pt; }
 
 	.packing-list .carton-header .ch-right {
 		font-size: 7.5pt;
@@ -102,7 +92,6 @@
 		opacity: 0.85;
 	}
 
-	/* Items table within each carton */
 	.packing-list .carton-items {
 		width: 100%;
 		border-collapse: collapse;
@@ -123,7 +112,6 @@
 		border: 1px solid #ddd;
 		font-size: 8.5pt;
 		padding: 3px 6px;
-		font-weight: 500;
 	}
 
 	.packing-list .carton-items td.num {
@@ -131,9 +119,7 @@
 		font-weight: 700;
 	}
 
-	.packing-list .carton-items tr:nth-child(even) {
-		background: #fafafa;
-	}
+	.packing-list .carton-items tr:nth-child(even) { background: #fafafa; }
 
 	.packing-list .carton-footer {
 		display: flex;
@@ -145,23 +131,62 @@
 		background: #f8f8fc;
 	}
 
-	.packing-list .carton-footer .cf-item {
-		display: inline-block;
-		margin-right: 12px;
-	}
-
-	.packing-list .carton-footer .cf-label {
+	.packing-list .cf-label {
 		color: #777;
 		font-weight: 600;
 		text-transform: uppercase;
 		font-size: 6.5pt;
 	}
 
-	.packing-list .carton-footer .cf-value {
-		font-weight: 800;
+	.packing-list .cf-value { font-weight: 800; }
+
+	.packing-list .cf-item {
+		display: inline-block;
+		margin-right: 12px;
 	}
 
-	/* Grand totals */
+	.packing-list .section-title {
+		font-size: 9pt;
+		font-weight: 800;
+		text-transform: uppercase;
+		color: #1a1a2e;
+		margin: 12px 0 4px 0;
+		letter-spacing: 0.5px;
+	}
+
+	.packing-list .summary-table {
+		width: 100%;
+		border-collapse: collapse;
+	}
+
+	.packing-list .summary-table th {
+		background: #f0f0f5;
+		font-size: 7pt;
+		padding: 3px 6px;
+		text-align: left;
+		font-weight: 700;
+		text-transform: uppercase;
+		color: #555;
+		border: 1px solid #ddd;
+	}
+
+	.packing-list .summary-table td {
+		border: 1px solid #ddd;
+		padding: 3px 6px;
+		font-size: 8.5pt;
+	}
+
+	.packing-list .summary-table td.num {
+		text-align: right;
+		font-weight: 700;
+	}
+
+	.packing-list .total-row td {
+		font-weight: 800 !important;
+		border-top: 2px solid #1a1a2e !important;
+		font-size: 9pt !important;
+	}
+
 	.packing-list .grand-totals {
 		margin-top: 12px;
 		border-top: 2px solid #1a1a2e;
@@ -187,61 +212,9 @@
 		padding: 4px 8px;
 		font-size: 9pt;
 		font-weight: 700;
-	}
-
-	.packing-list .grand-totals td.num {
 		text-align: right;
-		font-weight: 800;
 	}
 
-	/* Items summary table */
-	.packing-list .items-summary {
-		margin-top: 12px;
-	}
-
-	.packing-list .items-summary .is-title {
-		font-size: 9pt;
-		font-weight: 800;
-		text-transform: uppercase;
-		color: #1a1a2e;
-		margin-bottom: 4px;
-		letter-spacing: 0.5px;
-	}
-
-	.packing-list .items-summary table {
-		width: 100%;
-		border-collapse: collapse;
-	}
-
-	.packing-list .items-summary th {
-		background: #f0f0f5;
-		font-size: 7pt;
-		padding: 3px 6px;
-		text-align: left;
-		font-weight: 700;
-		text-transform: uppercase;
-		color: #555;
-		border: 1px solid #ddd;
-	}
-
-	.packing-list .items-summary td {
-		border: 1px solid #ddd;
-		padding: 3px 6px;
-		font-size: 8.5pt;
-	}
-
-	.packing-list .items-summary td.num {
-		text-align: right;
-		font-weight: 700;
-	}
-
-	.packing-list .items-summary .total-row td {
-		font-weight: 800;
-		border-top: 2px solid #1a1a2e;
-		font-size: 9pt;
-	}
-
-	/* Footer / Signatures */
 	.packing-list .pl-footer {
 		margin-top: 30px;
 		display: flex;
@@ -262,53 +235,14 @@
 	}
 </style>
 
-{#- Fetch full carton details -#}
-{% set carton_details = [] %}
-{% set grand_total_pieces = 0 %}
-{% set grand_total_net = 0.0 %}
-{% set grand_total_gross = 0.0 %}
-{% set item_summary = {} %}
-{% for row in doc.cartons %}
-	{% set cbl = frappe.get_doc("Carton Box Log", row.carton_id) %}
-	{% set carton_pieces = 0 %}
-	{% for item in (cbl.items or []) %}
-		{% set carton_pieces = carton_pieces + (item.qty or 0) %}
-		{% if item.item_code in item_summary %}
-			{% set _ = item_summary.__setitem__(item.item_code, {
-				"item_code": item.item_code,
-				"item_name": item.item_name,
-				"qty": item_summary[item.item_code].qty + (item.qty or 0),
-				"uom": item.uom
-			}) %}
-		{% else %}
-			{% set _ = item_summary.__setitem__(item.item_code, {
-				"item_code": item.item_code,
-				"item_name": item.item_name,
-				"qty": item.qty or 0,
-				"uom": item.uom
-			}) %}
-		{% endif %}
-	{% endfor %}
-	{% set _ = carton_details.append({
-		"name": cbl.name,
-		"box_type": cbl.box_type,
-		"dimensions": cbl.dimensions,
-		"items": cbl.items,
-		"net_weight_kg": cbl.net_weight_kg or 0,
-		"gross_weight_kg": cbl.gross_weight_kg or 0,
-		"packed_date": cbl.packed_date,
-		"pieces": carton_pieces
-	}) %}
-	{% set grand_total_pieces = grand_total_pieces + carton_pieces %}
-	{% set grand_total_net = grand_total_net + (cbl.net_weight_kg or 0) %}
-	{% set grand_total_gross = grand_total_gross + (cbl.gross_weight_kg or 0) %}
-{% endfor %}
+{#- Fetch all data via Python to avoid Jinja sandbox issues -#}
+{% set pl = frappe.call("snrg_cartons.snrg_cartons.utils.get_packing_list_data", dispatch_log_name=doc.name) %}
 
 <div class="packing-list">
 	<!-- HEADER -->
 	<div class="pl-header">
 		<img class="pl-logo" src="/files/WhatsApp Image 2025-11-27 at 16.04.30.jpeg" alt="" onerror="this.style.display='none'">
-		<div class="company-info">
+		<div>
 			<div class="company-name">SNRG ELECTRICALS INDIA PVT. LTD.</div>
 		</div>
 	</div>
@@ -336,27 +270,24 @@
 			</div>
 		</div>
 		<div class="di-row">
-			<div class="di-cell" colspan="2" style="width:50%">
+			<div class="di-cell" style="width:50%">
 				<div class="di-label">Customer</div>
 				<div class="di-value">{{ doc.customer }}</div>
 			</div>
-			<div class="di-cell">
-				<div class="di-label">Total Cartons</div>
-				<div class="di-value">{{ carton_details | length }}</div>
-			</div>
-			<div class="di-cell">
-				<div class="di-label">Total Pieces</div>
-				<div class="di-value">{{ grand_total_pieces | int }}</div>
+			<div class="di-cell" style="width:50%">
+				<div class="di-label">Status</div>
+				<div class="di-value">{{ doc.status }}</div>
 			</div>
 		</div>
 	</div>
 
 	<!-- CARTON-WISE DETAIL -->
-	{% for ctn in carton_details %}
+	{% if pl %}
+	{% for ctn in pl.cartons %}
 	<div class="carton-block">
 		<div class="carton-header">
-			<span class="ch-left">📦 {{ ctn.name }}</span>
-			<span class="ch-right">Box Type: {{ ctn.box_type }} &nbsp;|&nbsp; {{ ctn.dimensions or '' }}</span>
+			<span class="ch-left">Carton {{ loop.index }}: {{ ctn.name }}</span>
+			<span class="ch-right">Box: {{ ctn.box_type }} &nbsp;|&nbsp; {{ ctn.dimensions }}</span>
 		</div>
 		<table class="carton-items">
 			<thead>
@@ -373,7 +304,7 @@
 				<tr>
 					<td>{{ loop.index }}</td>
 					<td>{{ item.item_code }}</td>
-					<td>{{ item.item_name or '' }}</td>
+					<td>{{ item.item_name }}</td>
 					<td class="num">{{ item.qty | int }}</td>
 					<td>{{ item.uom }}</td>
 				</tr>
@@ -384,7 +315,7 @@
 			<div>
 				<span class="cf-item">
 					<span class="cf-label">Pieces: </span>
-					<span class="cf-value">{{ ctn.pieces | int }}</span>
+					<span class="cf-value">{{ ctn.pieces }}</span>
 				</span>
 				<span class="cf-item">
 					<span class="cf-label">Net Wt: </span>
@@ -397,45 +328,41 @@
 			</div>
 			<div>
 				<span class="cf-label">Packed: </span>
-				<span class="cf-value">{{ frappe.utils.formatdate(ctn.packed_date, "dd-MM-yyyy") if ctn.packed_date else '' }}</span>
+				<span class="cf-value">{{ ctn.packed_date }}</span>
 			</div>
 		</div>
 	</div>
 	{% endfor %}
 
-	<!-- ITEMS SUMMARY (aggregated across all cartons) -->
-	<div class="items-summary">
-		<div class="is-title">Items Summary (All Cartons)</div>
-		<table>
-			<thead>
-				<tr>
-					<th style="width:5%">#</th>
-					<th style="width:20%">Item Code</th>
-					<th>Item Name</th>
-					<th style="width:15%; text-align:right">Total Qty</th>
-					<th style="width:10%">UOM</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% set total_all = {"qty": 0} %}
-				{% for key, item in item_summary.items() %}
-				<tr>
-					<td>{{ loop.index }}</td>
-					<td>{{ item.item_code }}</td>
-					<td>{{ item.item_name }}</td>
-					<td class="num">{{ item.qty | int }}</td>
-					<td>{{ item.uom }}</td>
-				</tr>
-				{% set _ = total_all.__setitem__("qty", total_all.qty + item.qty) %}
-				{% endfor %}
-				<tr class="total-row">
-					<td colspan="3" style="text-align:right">Grand Total</td>
-					<td class="num">{{ total_all.qty | int }}</td>
-					<td></td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+	<!-- ITEMS SUMMARY -->
+	<div class="section-title">Items Summary (All Cartons)</div>
+	<table class="summary-table">
+		<thead>
+			<tr>
+				<th style="width:5%">#</th>
+				<th style="width:20%">Item Code</th>
+				<th>Item Name</th>
+				<th style="width:15%; text-align:right">Total Qty</th>
+				<th style="width:10%">UOM</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for item in pl.item_summary %}
+			<tr>
+				<td>{{ loop.index }}</td>
+				<td>{{ item.item_code }}</td>
+				<td>{{ item.item_name }}</td>
+				<td class="num">{{ item.qty | int }}</td>
+				<td>{{ item.uom }}</td>
+			</tr>
+			{% endfor %}
+			<tr class="total-row">
+				<td colspan="3" style="text-align:right">Grand Total</td>
+				<td class="num">{{ pl.grand_pieces }}</td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
 
 	<!-- GRAND TOTALS -->
 	<div class="grand-totals">
@@ -450,16 +377,17 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td class="num">{{ carton_details | length }}</td>
-					<td class="num">{{ grand_total_pieces | int }}</td>
-					<td class="num">{{ grand_total_net | round(2) }} kg</td>
-					<td class="num">{{ grand_total_gross | round(2) }} kg</td>
+					<td>{{ pl.cartons | length }}</td>
+					<td>{{ pl.grand_pieces }}</td>
+					<td>{{ pl.grand_net }} kg</td>
+					<td>{{ pl.grand_gross }} kg</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
+	{% endif %}
 
-	<!-- SIGNATURE / FOOTER -->
+	<!-- SIGNATURES -->
 	<div class="pl-footer">
 		<div class="signature-block">
 			<div class="signature-line">Prepared By</div>

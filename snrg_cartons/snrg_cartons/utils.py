@@ -95,3 +95,65 @@ def _generate_svg_barcode(text):
 	
 	svg_b64 = base64.b64encode(svg.encode()).decode()
 	return f"data:image/svg+xml;base64,{svg_b64}"
+
+
+@frappe.whitelist()
+def get_packing_list_data(dispatch_log_name):
+	"""Return carton-wise details and aggregated item summary for a Dispatch Log.
+	Called from the packing list Jinja template to avoid sandbox restrictions."""
+	from frappe.utils import flt
+
+	dl = frappe.get_doc("Dispatch Log", dispatch_log_name)
+	cartons = []
+	item_summary = {}
+	grand_pieces = 0
+	grand_net = 0.0
+	grand_gross = 0.0
+
+	for row in (dl.cartons or []):
+		cbl = frappe.get_doc("Carton Box Log", row.carton_id)
+		carton_pieces = 0
+		carton_items = []
+
+		for item in (cbl.items or []):
+			qty = flt(item.qty)
+			carton_pieces += qty
+			carton_items.append({
+				"item_code": item.item_code,
+				"item_name": item.item_name or "",
+				"qty": qty,
+				"uom": item.uom or ""
+			})
+			# Aggregate
+			if item.item_code in item_summary:
+				item_summary[item.item_code]["qty"] += qty
+			else:
+				item_summary[item.item_code] = {
+					"item_code": item.item_code,
+					"item_name": item.item_name or "",
+					"qty": qty,
+					"uom": item.uom or ""
+				}
+
+		cartons.append({
+			"name": cbl.name,
+			"box_type": cbl.box_type,
+			"dimensions": cbl.dimensions or "",
+			"items": carton_items,
+			"net_weight_kg": flt(cbl.net_weight_kg),
+			"gross_weight_kg": flt(cbl.gross_weight_kg),
+			"packed_date": str(cbl.packed_date) if cbl.packed_date else "",
+			"pieces": int(carton_pieces)
+		})
+		grand_pieces += carton_pieces
+		grand_net += flt(cbl.net_weight_kg)
+		grand_gross += flt(cbl.gross_weight_kg)
+
+	return {
+		"cartons": cartons,
+		"item_summary": list(item_summary.values()),
+		"grand_pieces": int(grand_pieces),
+		"grand_net": round(grand_net, 2),
+		"grand_gross": round(grand_gross, 2)
+	}
+

@@ -49,7 +49,6 @@ class DispatchLog(Document):
 					"uom": item.uom,
 					"stock_uom": item.uom,
 					"conversion_factor": 1,
-					"against_sales_order": self.sales_order,
 				}
 				dn.append("items", dn_item)
 

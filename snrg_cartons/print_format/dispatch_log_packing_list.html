@@ -1,0 +1,141 @@
+<style>
+    @media print {
+        body { font-family: Helvetica, Arial, sans-serif; }
+        .page-header, .page-footer, .navbar, .sidebar, .btn, .print-format-builder-header, .print-format-builder-footer { display: none !important; }
+    }
+    
+    .packing-list {
+        width: 100%;
+        box-sizing: border-box;
+        border: 2px solid #000;
+    }
+
+    .header-block {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid #000;
+        padding: 10px;
+    }
+    .company-name { font-size: 20px; font-weight: bold; }
+
+    .title-block {
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+        padding: 5px; border-bottom: 1px solid #000;
+    }
+
+    .meta-block {
+        display: flex;
+        border-bottom: 2px solid #000;
+    }
+    .meta-col {
+        flex: 1;
+        padding: 10px;
+    }
+    .meta-col.left-col { border-right: 1px solid #000; }
+    
+    .meta-table { width: 100%; }
+    .meta-table td { padding: 2px; }
+
+    .cartons-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 8px;
+        padding: 10px;
+        border-bottom: 2px solid #000;
+    }
+
+    .carton-block {
+        border: 1px solid #000;
+        break-inside: avoid;
+    }
+
+    .carton-header {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #000;
+        padding: 4px;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .carton-items {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+    }
+    .carton-items td { padding: 2px 4px; }
+    .carton-items tr:nth-child(even) { background-color: #f9f9f9; }
+
+    .summary-block {
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        font-weight: bold;
+    }
+
+</style>
+
+<div class="packing-list">
+    <div class="header-block">
+        <div>[SNRG LOGO]</div>
+        <div style="text-align: right;">
+            <div class="company-name">SNRG ELECTRICALS INDIA PVT. LTD.</div>
+            <div>Noida, Sector 63, UP</div>
+        </div>
+    </div>
+    
+    <div class="title-block">PACKING LIST</div>
+
+    <div class="meta-block">
+        <div class="meta-col left-col">
+            <table class="meta-table">
+                <tr><td><strong>Dispatch Log:</strong></td><td>{{ doc.name }}</td></tr>
+                <tr><td><strong>Sales Order:</strong></td><td>{{ doc.sales_order }}</td></tr>
+                <tr><td><strong>Customer:</strong></td><td>{{ doc.customer }}</td></tr>
+                <tr><td><strong>Address:</strong></td><td>{{ doc.customer_address or '' }}</td></tr>
+            </table>
+        </div>
+        <div class="meta-col">
+            <table class="meta-table">
+                <tr><td><strong>Dispatch Date:</strong></td><td>{{ frappe.utils.formatdate(doc.dispatch_date) }}</td></tr>
+                <tr><td><strong>Transporter:</strong></td><td>{{ doc.transporter or '' }}</td></tr>
+                <tr><td><strong>LR:</strong></td><td>{{ doc.lr_number or '' }}</td></tr>
+                <tr><td><strong>Vehicle:</strong></td><td>{{ doc.vehicle_number or '' }}</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="cartons-grid">
+        {% for row in doc.cartons %}
+        <div class="carton-block">
+            <div class="carton-header">
+                <div>{{ row.carton_id }}</div>
+                <div>Box {{ row.box_type }}</div>
+            </div>
+            <table class="carton-items">
+                {% set items = frappe.get_doc("Carton Box Log", row.carton_id).items %}
+                {% if items %}
+                    {% for item in items %}
+                    <tr>
+                        <td>{{ item.item_code }}</td>
+                        <td>{{ item.item_name }}</td>
+                        <td>{{ item.qty }} {{ item.uom }}</td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr><td colspan="3" style="text-align: center; color: #999;">(empty)</td></tr>
+                {% endif %}
+            </table>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="summary-block">
+        <div>Total cartons: {{ doc.total_cartons }}</div>
+        <div>Total pieces: {{ doc.total_pieces }}</div>
+        <div>Total gross weight: {{ doc.total_gross_weight }} kg</div>
+    </div>
+</div>

@@ -1,0 +1,100 @@
+{
+ "actions": [],
+ "autoname": "field:box_code",
+ "creation": "2026-03-16 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "box_code",
+  "description",
+  "length_cm",
+  "width_cm",
+  "height_cm",
+  "empty_weight_kg",
+  "max_capacity",
+  "is_active"
+ ],
+ "fields": [
+  {
+   "fieldname": "box_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Box code",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Description"
+  },
+  {
+   "fieldname": "length_cm",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Length (cm)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "width_cm",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Width (cm)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "height_cm",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Height (cm)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "empty_weight_kg",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Empty box weight (kg)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "max_capacity",
+   "fieldtype": "Int",
+   "label": "Max capacity (pcs)"
+  },
+  {
+   "default": "1",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "label": "Is active",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-03-16 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "SNRG Cartons",
+ "name": "Carton Box Type",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "box_code,description",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "box_code"
+}

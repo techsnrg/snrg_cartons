@@ -1,0 +1,198 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2026-03-16 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "carton_details_section",
+  "naming_series",
+  "box_type",
+  "dimensions",
+  "empty_weight_kg",
+  "contents_section",
+  "items",
+  "weight_summary_section",
+  "net_weight_kg",
+  "gross_weight_kg",
+  "packing_info_section",
+  "packed_date",
+  "packed_by",
+  "warehouse",
+  "dispatch_info_section",
+  "status",
+  "dispatch_log",
+  "delivery_note",
+  "sales_invoice",
+  "customer",
+  "dispatched_date"
+ ],
+ "fields": [
+  {
+   "fieldname": "carton_details_section",
+   "fieldtype": "Section Break",
+   "label": "Carton details"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "CTN-.#####",
+   "reqd": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "box_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Box type",
+   "options": "Carton Box Type",
+   "reqd": 1
+  },
+  {
+   "fieldname": "dimensions",
+   "fieldtype": "Data",
+   "label": "Dimensions",
+   "read_only": 1
+  },
+  {
+   "fieldname": "empty_weight_kg",
+   "fieldtype": "Float",
+   "label": "Empty box weight (kg)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "contents_section",
+   "fieldtype": "Section Break",
+   "label": "Contents"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Items",
+   "options": "Carton Box Log Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "weight_summary_section",
+   "fieldtype": "Section Break",
+   "label": "Weight summary"
+  },
+  {
+   "fieldname": "net_weight_kg",
+   "fieldtype": "Float",
+   "label": "Net weight (kg)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "gross_weight_kg",
+   "fieldtype": "Float",
+   "label": "Gross weight (kg)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "packing_info_section",
+   "fieldtype": "Section Break",
+   "label": "Packing info"
+  },
+  {
+   "default": "Today",
+   "fieldname": "packed_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Packed date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "packed_by",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Packed by",
+   "options": "Employee"
+  },
+  {
+   "fieldname": "warehouse",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Warehouse",
+   "options": "Warehouse",
+   "reqd": 1
+  },
+  {
+   "fieldname": "dispatch_info_section",
+   "fieldtype": "Section Break",
+   "label": "Dispatch info"
+  },
+  {
+   "default": "Available",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Available\nDispatched",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "dispatch_log",
+   "fieldtype": "Link",
+   "label": "Dispatch log",
+   "options": "Dispatch Log",
+   "read_only": 1
+  },
+  {
+   "fieldname": "delivery_note",
+   "fieldtype": "Link",
+   "label": "Delivery note",
+   "options": "Delivery Note",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sales_invoice",
+   "fieldtype": "Link",
+   "label": "Sales invoice",
+   "options": "Sales Invoice",
+   "read_only": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer",
+   "read_only": 1
+  },
+  {
+   "fieldname": "dispatched_date",
+   "fieldtype": "Date",
+   "label": "Dispatched date",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-03-16 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "SNRG Cartons",
+ "name": "Carton Box Log",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "name,customer,dispatch_log",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "name"
+}

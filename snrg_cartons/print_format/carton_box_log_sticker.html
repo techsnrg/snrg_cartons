@@ -1,0 +1,114 @@
+<style>
+    @media print {
+        body { font-family: Helvetica, Arial, sans-serif; }
+        .page-header, .page-footer, .navbar, .sidebar, .btn, .print-format-builder-header, .print-format-builder-footer { display: none !important; }
+        @page { size: 100mm 150mm; margin: 0; }
+        body { margin: 0; padding: 10mm; }
+    }
+    
+    .sticker-container {
+        width: 100%;
+        max-width: 100mm;
+        height: 100%;
+        max-height: 150mm;
+        box-sizing: border-box;
+        border: 2px solid #000;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .sticker-header {
+        border-bottom: 2px solid #000;
+        padding: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .sticker-header .company-info {
+        font-weight: bold;
+        font-size: 14px;
+    }
+    .sticker-header .company-address {
+        font-size: 12px;
+    }
+    .box-badge {
+        border: 1px solid #000;
+        border-radius: 12px;
+        padding: 2px 8px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .sticker-ctn {
+        text-align: center;
+        font-size: 28px;
+        font-weight: bold;
+        border-bottom: 2px solid #000;
+        padding: 10px 0;
+    }
+
+    .sticker-items {
+        flex-grow: 1;
+        padding: 5px;
+        font-size: 12px;
+    }
+    .items-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .items-table th, .items-table td {
+        text-align: left;
+        padding: 2px 0;
+    }
+    .items-table th { border-bottom: 1px solid #000; }
+
+    .sticker-footer {
+        border-top: 2px solid #000;
+        padding: 5px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+</style>
+
+<div class="sticker-container">
+    <div class="sticker-header">
+        <div>
+            <div class="company-info">SNRG ELECTRICALS</div>
+            <div class="company-address">Noida, Sector 63</div>
+        </div>
+        <div class="box-badge">Box: {{ doc.box_type }}</div>
+    </div>
+    
+    <div class="sticker-ctn">
+        {{ doc.name }}
+    </div>
+
+    <div class="sticker-items">
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th>Item Code</th>
+                    <th>Item Name</th>
+                    <th>Qty</th>
+                    <th>UOM</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in doc.items %}
+                <tr>
+                    <td>{{ item.item_code }}</td>
+                    <td>{{ item.item_name }}</td>
+                    <td>{{ item.qty }}</td>
+                    <td>{{ item.uom }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="sticker-footer">
+        Packed: {{ frappe.utils.formatdate(doc.packed_date) }}<br>
+        Dim: {{ doc.dimensions }} &nbsp;&nbsp; Gross: {{ doc.gross_weight_kg }} kg
+    </div>
+</div>

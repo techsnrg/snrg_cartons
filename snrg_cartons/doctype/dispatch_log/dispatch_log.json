@@ -1,0 +1,197 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2026-03-16 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "order_details_section",
+  "naming_series",
+  "sales_order",
+  "customer",
+  "customer_address",
+  "dispatch_date",
+  "transport_details_section",
+  "transporter",
+  "lr_number",
+  "lr_date",
+  "vehicle_number",
+  "cartons_section",
+  "cartons",
+  "summary_section",
+  "total_cartons",
+  "total_pieces",
+  "total_gross_weight",
+  "linked_documents_section",
+  "status",
+  "delivery_note",
+  "sales_invoice"
+ ],
+ "fields": [
+  {
+   "fieldname": "order_details_section",
+   "fieldtype": "Section Break",
+   "label": "Order details"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "DL-.YYYY.-.#####",
+   "reqd": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "sales_order",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Sales order",
+   "options": "Sales Order",
+   "reqd": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Customer",
+   "options": "Customer",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "customer_address",
+   "fieldtype": "Link",
+   "label": "Customer address",
+   "options": "Address"
+  },
+  {
+   "default": "Today",
+   "fieldname": "dispatch_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Dispatch date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "transport_details_section",
+   "fieldtype": "Section Break",
+   "label": "Transport details"
+  },
+  {
+   "fieldname": "transporter",
+   "fieldtype": "Data",
+   "label": "Transporter"
+  },
+  {
+   "fieldname": "lr_number",
+   "fieldtype": "Data",
+   "label": "LR number"
+  },
+  {
+   "fieldname": "lr_date",
+   "fieldtype": "Date",
+   "label": "LR date"
+  },
+  {
+   "fieldname": "vehicle_number",
+   "fieldtype": "Data",
+   "label": "Vehicle number"
+  },
+  {
+   "fieldname": "cartons_section",
+   "fieldtype": "Section Break",
+   "label": "Cartons"
+  },
+  {
+   "fieldname": "cartons",
+   "fieldtype": "Table",
+   "label": "Cartons",
+   "options": "Dispatch Log CTN",
+   "reqd": 1
+  },
+  {
+   "fieldname": "summary_section",
+   "fieldtype": "Section Break",
+   "label": "Summary"
+  },
+  {
+   "fieldname": "total_cartons",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Total cartons",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_pieces",
+   "fieldtype": "Float",
+   "label": "Total pieces",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_gross_weight",
+   "fieldtype": "Float",
+   "label": "Total gross weight (kg)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "linked_documents_section",
+   "fieldtype": "Section Break",
+   "label": "Linked documents"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Draft\nSubmitted\nCancelled",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "delivery_note",
+   "fieldtype": "Link",
+   "label": "Delivery note",
+   "options": "Delivery Note",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sales_invoice",
+   "fieldtype": "Link",
+   "label": "Sales invoice",
+   "options": "Sales Invoice",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-03-16 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "SNRG Cartons",
+ "name": "Dispatch Log",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "name,sales_order,customer",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "name"
+}

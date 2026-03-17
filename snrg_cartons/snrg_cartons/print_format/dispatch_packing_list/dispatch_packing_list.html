@@ -4,20 +4,26 @@
 		color: #1a1a2e;
 		font-size: 9pt;
 		line-height: 1.4;
+		-webkit-print-color-adjust: exact !important;
+		print-color-adjust: exact !important;
+	}
+
+	.packing-list * {
+		-webkit-print-color-adjust: exact !important;
+		print-color-adjust: exact !important;
 	}
 
 	.packing-list .pl-header {
 		border-bottom: 2px solid #1a1a2e;
 		padding-bottom: 8px;
 		margin-bottom: 10px;
-		display: flex;
-		align-items: center;
-		gap: 12px;
 	}
 
 	.packing-list .pl-header img.pl-logo {
 		height: 40px;
 		width: auto;
+		vertical-align: middle;
+		margin-right: 10px;
 	}
 
 	.packing-list .pl-header .company-name {
@@ -25,6 +31,8 @@
 		font-weight: 900;
 		letter-spacing: 1px;
 		color: #1a1a2e;
+		display: inline;
+		vertical-align: middle;
 	}
 
 	.packing-list .pl-title {
@@ -40,20 +48,17 @@
 		padding: 4px 0;
 	}
 
+	/* Dispatch info - table layout for PDF compatibility */
 	.packing-list .dispatch-info {
-		display: table;
 		width: 100%;
-		margin-bottom: 12px;
 		border-collapse: collapse;
+		margin-bottom: 12px;
 	}
 
-	.packing-list .dispatch-info .di-row { display: table-row; }
-
-	.packing-list .dispatch-info .di-cell {
-		display: table-cell;
+	.packing-list .dispatch-info td {
 		padding: 3px 6px;
 		border: 1px solid #ddd;
-		width: 25%;
+		vertical-align: top;
 	}
 
 	.packing-list .di-label {
@@ -68,37 +73,53 @@
 		font-weight: 700;
 	}
 
+	/* Carton blocks */
 	.packing-list .carton-block {
 		margin-bottom: 8px;
 		page-break-inside: avoid;
 	}
 
 	.packing-list .carton-header {
-		background: #1a1a2e;
-		color: #fff;
+		background-color: #1a1a2e !important;
+		color: #ffffff !important;
 		padding: 3px 8px;
 		font-weight: 800;
 		font-size: 9pt;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
+		-webkit-print-color-adjust: exact !important;
+		print-color-adjust: exact !important;
 	}
 
-	.packing-list .carton-header .ch-left { font-size: 10pt; }
+	.packing-list .carton-header-table {
+		width: 100%;
+		border-collapse: collapse;
+	}
 
-	.packing-list .carton-header .ch-right {
+	.packing-list .carton-header-table td {
+		padding: 0;
+		color: #ffffff !important;
+	}
+
+	.packing-list .ch-left {
+		font-size: 10pt;
+		font-weight: 800;
+		color: #ffffff !important;
+	}
+
+	.packing-list .ch-right {
 		font-size: 7.5pt;
 		font-weight: 600;
-		opacity: 0.85;
+		text-align: right;
+		color: #ffffff !important;
 	}
 
+	/* Item tables */
 	.packing-list .carton-items {
 		width: 100%;
 		border-collapse: collapse;
 	}
 
 	.packing-list .carton-items th {
-		background: #f0f0f5;
+		background-color: #f0f0f5 !important;
 		font-size: 7pt;
 		padding: 3px 6px;
 		text-align: left;
@@ -119,16 +140,20 @@
 		font-weight: 700;
 	}
 
-	.packing-list .carton-items tr:nth-child(even) { background: #fafafa; }
+	.packing-list .carton-items tr:nth-child(even) { background-color: #fafafa !important; }
 
-	.packing-list .carton-footer {
-		display: flex;
-		justify-content: space-between;
+	/* Carton footer - table layout */
+	.packing-list .carton-footer-table {
+		width: 100%;
+		border-collapse: collapse;
+	}
+
+	.packing-list .carton-footer-table td {
 		border: 1px solid #ddd;
 		border-top: none;
 		padding: 2px 6px;
 		font-size: 7.5pt;
-		background: #f8f8fc;
+		background-color: #f8f8fc !important;
 	}
 
 	.packing-list .cf-label {
@@ -140,11 +165,7 @@
 
 	.packing-list .cf-value { font-weight: 800; }
 
-	.packing-list .cf-item {
-		display: inline-block;
-		margin-right: 12px;
-	}
-
+	/* Section title */
 	.packing-list .section-title {
 		font-size: 9pt;
 		font-weight: 800;
@@ -154,13 +175,14 @@
 		letter-spacing: 0.5px;
 	}
 
+	/* Summary tables */
 	.packing-list .summary-table {
 		width: 100%;
 		border-collapse: collapse;
 	}
 
 	.packing-list .summary-table th {
-		background: #f0f0f5;
+		background-color: #f0f0f5 !important;
 		font-size: 7pt;
 		padding: 3px 6px;
 		text-align: left;
@@ -187,6 +209,7 @@
 		font-size: 9pt !important;
 	}
 
+	/* Grand totals */
 	.packing-list .grand-totals {
 		margin-top: 12px;
 		border-top: 2px solid #1a1a2e;
@@ -199,8 +222,8 @@
 	}
 
 	.packing-list .grand-totals th {
-		background: #1a1a2e;
-		color: #fff;
+		background-color: #1a1a2e !important;
+		color: #ffffff !important;
 		padding: 4px 8px;
 		text-align: left;
 		font-size: 8pt;
@@ -215,15 +238,18 @@
 		text-align: right;
 	}
 
-	.packing-list .pl-footer {
+	/* Signature blocks - table layout for PDF */
+	.packing-list .signatures-table {
+		width: 100%;
 		margin-top: 30px;
-		display: flex;
-		justify-content: space-between;
+		border-collapse: collapse;
 	}
 
-	.packing-list .signature-block {
-		width: 200px;
+	.packing-list .signatures-table td {
+		width: 33.33%;
 		text-align: center;
+		padding: 0 12px;
+		vertical-align: bottom;
 	}
 
 	.packing-list .signature-line {
@@ -235,59 +261,61 @@
 	}
 </style>
 
-{#- Fetch all data via Python to avoid Jinja sandbox issues -#}
+{#- Fetch all data via Python -#}
 {% set pl = frappe.call("snrg_cartons.snrg_cartons.utils.get_packing_list_data", dispatch_log_name=doc.name) %}
 
 <div class="packing-list">
 	<!-- HEADER -->
 	<div class="pl-header">
 		<img class="pl-logo" src="/files/WhatsApp Image 2025-11-27 at 16.04.30.jpeg" alt="" onerror="this.style.display='none'">
-		<div>
-			<div class="company-name">SNRG ELECTRICALS INDIA PVT. LTD.</div>
-		</div>
+		<span class="company-name">SNRG ELECTRICALS INDIA PVT. LTD.</span>
 	</div>
 
 	<div class="pl-title">Packing List</div>
 
-	<!-- DISPATCH INFO -->
-	<div class="dispatch-info">
-		<div class="di-row">
-			<div class="di-cell">
+	<!-- DISPATCH INFO - 2 columns per row for more space -->
+	<table class="dispatch-info">
+		<tr>
+			<td style="width:50%">
 				<div class="di-label">Dispatch No.</div>
 				<div class="di-value">{{ doc.name }}</div>
-			</div>
-			<div class="di-cell">
+			</td>
+			<td style="width:50%">
 				<div class="di-label">Dispatch Date</div>
 				<div class="di-value">{{ frappe.utils.formatdate(doc.dispatch_date, "dd-MM-yyyy") if doc.dispatch_date else '' }}</div>
-			</div>
-			<div class="di-cell">
-				<div class="di-label">Sales Order</div>
-				<div class="di-value">{{ doc.sales_order or '' }}</div>
-			</div>
-			<div class="di-cell">
-				<div class="di-label">Delivery Note</div>
-				<div class="di-value">{{ doc.delivery_note or '—' }}</div>
-			</div>
-		</div>
-		<div class="di-row">
-			<div class="di-cell" style="width:50%">
+			</td>
+		</tr>
+		<tr>
+			<td>
 				<div class="di-label">Customer</div>
 				<div class="di-value">{{ doc.customer }}</div>
-			</div>
-			<div class="di-cell" style="width:50%">
-				<div class="di-label">Status</div>
-				<div class="di-value">{{ doc.status }}</div>
-			</div>
-		</div>
-	</div>
+			</td>
+			<td>
+				<div class="di-label">Customer Name</div>
+				<div class="di-value">{{ doc.customer_name or '' }}</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div class="di-label">Sales Order</div>
+				<div class="di-value">{{ doc.sales_order or '—' }}</div>
+			</td>
+			<td>
+				<div class="di-label">Delivery Note</div>
+				<div class="di-value">{{ doc.delivery_note or '—' }}</div>
+			</td>
+		</tr>
+	</table>
 
 	<!-- CARTON-WISE DETAIL -->
 	{% if pl %}
 	{% for ctn in pl.cartons %}
 	<div class="carton-block">
 		<div class="carton-header">
-			<span class="ch-left">Carton {{ loop.index }}: {{ ctn.name }}</span>
-			<span class="ch-right">Box: {{ ctn.box_type }} &nbsp;|&nbsp; {{ ctn.dimensions }}</span>
+			<table class="carton-header-table"><tr>
+				<td><span class="ch-left">Carton {{ loop.index }}: {{ ctn.name }}</span></td>
+				<td><span class="ch-right">Box: {{ ctn.box_type }} &nbsp;|&nbsp; {{ ctn.dimensions }}</span></td>
+			</tr></table>
 		</div>
 		<table class="carton-items">
 			<thead>
@@ -311,26 +339,20 @@
 				{% endfor %}
 			</tbody>
 		</table>
-		<div class="carton-footer">
-			<div>
-				<span class="cf-item">
-					<span class="cf-label">Pieces: </span>
-					<span class="cf-value">{{ ctn.pieces }}</span>
-				</span>
-				<span class="cf-item">
-					<span class="cf-label">Net Wt: </span>
-					<span class="cf-value">{{ ctn.net_weight_kg }} kg</span>
-				</span>
-				<span class="cf-item">
-					<span class="cf-label">Gross Wt: </span>
-					<span class="cf-value">{{ ctn.gross_weight_kg }} kg</span>
-				</span>
-			</div>
-			<div>
-				<span class="cf-label">Packed: </span>
-				<span class="cf-value">{{ ctn.packed_date }}</span>
-			</div>
-		</div>
+		<table class="carton-footer-table">
+			<tr>
+				<td style="width:60%">
+					<span class="cf-label">Pieces: </span><span class="cf-value">{{ ctn.pieces }}</span>
+					&nbsp;&nbsp;
+					<span class="cf-label">Net Wt: </span><span class="cf-value">{{ ctn.net_weight_kg }} kg</span>
+					&nbsp;&nbsp;
+					<span class="cf-label">Gross Wt: </span><span class="cf-value">{{ ctn.gross_weight_kg }} kg</span>
+				</td>
+				<td style="width:40%; text-align:right">
+					<span class="cf-label">Packed: </span><span class="cf-value">{{ ctn.packed_date }}</span>
+				</td>
+			</tr>
+		</table>
 	</div>
 	{% endfor %}
 
@@ -387,16 +409,18 @@
 	</div>
 	{% endif %}
 
-	<!-- SIGNATURES -->
-	<div class="pl-footer">
-		<div class="signature-block">
-			<div class="signature-line">Prepared By</div>
-		</div>
-		<div class="signature-block">
-			<div class="signature-line">Checked By</div>
-		</div>
-		<div class="signature-block">
-			<div class="signature-line">Received By (Customer)</div>
-		</div>
-	</div>
+	<!-- SIGNATURES - table layout for PDF -->
+	<table class="signatures-table">
+		<tr>
+			<td>
+				<div class="signature-line">Prepared By</div>
+			</td>
+			<td>
+				<div class="signature-line">Checked By</div>
+			</td>
+			<td>
+				<div class="signature-line">Received By (Customer)</div>
+			</td>
+		</tr>
+	</table>
 </div>

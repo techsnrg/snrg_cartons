@@ -139,7 +139,7 @@ def get_packing_list_data(dispatch_log_name):
 			"name": cbl.name,
 			"box_type": cbl.box_type,
 			"dimensions": cbl.dimensions or "",
-			"items": carton_items,
+			"contents": carton_items,
 			"net_weight_kg": flt(cbl.net_weight_kg),
 			"gross_weight_kg": flt(cbl.gross_weight_kg),
 			"packed_date": str(cbl.packed_date) if cbl.packed_date else "",

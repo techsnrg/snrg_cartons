@@ -300,7 +300,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				{% for item in (ctn.items or []) %}
+				{% for item in (ctn.contents or []) %}
 				<tr>
 					<td>{{ loop.index }}</td>
 					<td>{{ item.item_code }}</td>

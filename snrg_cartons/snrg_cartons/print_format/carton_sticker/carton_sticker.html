@@ -8,7 +8,6 @@
 
 	.sticker-container {
 		width: 384px;
-		min-height: 280px;
 		padding: 3px 5px;
 		box-sizing: border-box;
 		font-family: 'Arial', 'Helvetica', sans-serif;
@@ -53,14 +52,13 @@
 
 	.barcode-section {
 		text-align: center;
-		margin: 1px 0;
-		line-height: 0;
+		margin: 2px 0;
 	}
 
-	.barcode-section canvas {
-		height: 20px !important;
-		width: auto !important;
-		max-width: 200px !important;
+	.barcode-section img {
+		height: 22px;
+		width: auto;
+		max-width: 80%;
 	}
 
 	/* Single SKU */
@@ -183,6 +181,7 @@
 </style>
 
 {% set item_count = doc.items | length %}
+{% set barcode_uri = frappe.call("snrg_cartons.snrg_cartons.utils.get_code128_barcode", text=doc.name) %}
 
 <div class="sticker-container">
 	<div class="sticker-header">
@@ -195,7 +194,9 @@
 	</div>
 
 	<div class="barcode-section">
-		<canvas id="barcode-canvas"></canvas>
+		{% if barcode_uri %}
+			<img src="{{ barcode_uri }}" alt="{{ doc.name }}">
+		{% endif %}
 	</div>
 
 	{% if item_count == 1 %}
@@ -287,53 +288,3 @@
 
 	{% endif %}
 </div>
-
-<script>
-// Inline Code128 barcode generator — no CDN dependency
-(function(){
-	var CODE128 = {
-		BARS: [212222,222122,222221,121223,121322,131222,122213,122312,132212,221213,221312,231212,112232,122132,122231,113222,123122,123221,223211,221132,221231,213212,223112,312131,311222,321122,321221,312212,322112,322211,212123,212321,232121,111323,131123,131321,112313,132113,132311,211313,231113,231311,112133,112331,132131,113123,113321,133121,313121,211331,231131,213113,213311,213131,311123,311321,331121,312113,312311,332111,314111,221411,431111,111224,111422,121124,121421,141122,141221,112214,112412,122114,122411,142112,142211,241211,221114,413111,241112,134111,111242,121142,121241,114212,124112,124211,411212,421112,421211,212141,214121,412121,111143,111341,131141,114113,114311,411113,411311,113141,114131,311141,411131,211412,211214,211232,233111,200000],
-		START_B: 104, STOP: 106,
-		encode: function(text) {
-			var codes = [this.START_B];
-			var checksum = this.START_B;
-			for (var i = 0; i < text.length; i++) {
-				var code = text.charCodeAt(i) - 32;
-				codes.push(code);
-				checksum += code * (i + 1);
-			}
-			codes.push(checksum % 103);
-			codes.push(this.STOP);
-			return codes;
-		},
-		render: function(canvas, text) {
-			var codes = this.encode(text);
-			var ctx = canvas.getContext('2d');
-			var barWidth = 1;
-			var totalWidth = 0;
-			codes.forEach(function(c){ var p = String(c < 10 ? '0'+c : c < 100 ? '0'+c : c); totalWidth += 11 * barWidth; });
-			// Calculate total width
-			totalWidth = 0;
-			var patterns = codes.map(function(c){ return ('000000' + CODE128.BARS[c]).slice(-6); });
-			patterns.forEach(function(p){ for(var i=0;i<6;i++) totalWidth += parseInt(p[i]) * barWidth; });
-			canvas.width = totalWidth + 20;
-			canvas.height = 20;
-			ctx.fillStyle = '#fff';
-			ctx.fillRect(0, 0, canvas.width, canvas.height);
-			var x = 10;
-			patterns.forEach(function(p) {
-				for (var i = 0; i < 6; i++) {
-					var w = parseInt(p[i]) * barWidth;
-					if (i % 2 === 0) {
-						ctx.fillStyle = '#000';
-						ctx.fillRect(x, 0, w, 20);
-					}
-					x += w;
-				}
-			});
-		}
-	};
-	var c = document.getElementById('barcode-canvas');
-	if (c) CODE128.render(c, '{{ doc.name }}');
-})();
-</script>

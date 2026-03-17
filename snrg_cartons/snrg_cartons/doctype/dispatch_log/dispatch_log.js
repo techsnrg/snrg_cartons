@@ -17,6 +17,15 @@ frappe.ui.form.on('Dispatch Log CTN', {
 });
 
 frappe.ui.form.on('Dispatch Log', {
+    setup: function(frm) {
+        frm.set_query("carton_id", "cartons", function() {
+            return {
+                filters: {
+                    status: "Available"
+                }
+            };
+        });
+    },
     sales_order: function(frm) {
         if (frm.doc.sales_order) {
             frappe.db.get_value("Sales Order", frm.doc.sales_order, ["customer", "customer_address"], function(value) {

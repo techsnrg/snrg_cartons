@@ -34,6 +34,7 @@
    "label": "Order details"
   },
   {
+   "default": "DL-.YYYY.-.#####",
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "label": "Series",

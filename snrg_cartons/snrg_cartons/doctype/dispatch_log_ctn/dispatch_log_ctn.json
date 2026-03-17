@@ -17,8 +17,7 @@
    "in_list_view": 1,
    "label": "Carton ID",
    "options": "Carton Box Log",
-   "reqd": 1,
-   "link_filters": "[{\"search_field\":\"status\",\"search_value\":\"Available\"}]"
+   "reqd": 1
   },
   {
    "fieldname": "box_type",

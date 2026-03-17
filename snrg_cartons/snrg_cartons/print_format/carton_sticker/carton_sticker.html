@@ -190,12 +190,6 @@
 </style>
 
 {% set item_count = doc.items | length %}
-{# Generate barcode data URI using Python #}
-{% set barcode_svg = "" %}
-{% try %}
-{% set barcode_svg = frappe.utils.get_barcode(doc.name, barcode_type="CODE128") %}
-{% except %}
-{% endtry %}
 
 <div class="sticker-container">
 	<!-- HEADER -->
@@ -211,11 +205,7 @@
 
 	<!-- BARCODE -->
 	<div class="barcode-section">
-		{% if barcode_svg %}
-			<img src="data:image/svg+xml;base64,{{ barcode_svg }}" alt="{{ doc.name }}">
-		{% else %}
-			<svg id="barcode-{{ doc.name | replace('-', '') }}"></svg>
-		{% endif %}
+		<svg id="barcode-{{ doc.name | replace('-', '') }}"></svg>
 	</div>
 
 	{% if item_count == 1 %}
@@ -310,8 +300,7 @@
 	{% endif %}
 </div>
 
-<!-- Fallback: JsBarcode if server-side barcode didn't work -->
-{% if not barcode_svg %}
+<!-- JsBarcode for Code128 -->
 <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
 <script>
 	(function() {
@@ -330,4 +319,3 @@
 		else document.addEventListener("DOMContentLoaded", renderBarcode);
 	})();
 </script>
-{% endif %}

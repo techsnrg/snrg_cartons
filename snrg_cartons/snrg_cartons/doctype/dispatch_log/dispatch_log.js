@@ -31,14 +31,32 @@ frappe.ui.form.on('Dispatch Log', {
             };
         });
     },
+
     sales_order: function(frm) {
         if (frm.doc.sales_order) {
-            frappe.db.get_value("Sales Order", frm.doc.sales_order, ["customer", "customer_address"], function(value) {
-                if (value && value.customer) frm.set_value("customer", value.customer);
-                if (value && value.customer_address) frm.set_value("customer_address", value.customer_address);
+            frappe.db.get_doc("Sales Order", frm.doc.sales_order).then(so => {
+                // Set customer
+                frm.set_value("customer", so.customer);
+
+                // Populate SO Items table
+                frm.doc.so_items = [];
+                (so.items || []).forEach(item => {
+                    let child = frm.add_child('so_items');
+                    child.item_code = item.item_code;
+                    child.item_name = item.item_name;
+                    child.ordered_qty = item.qty;
+                    child.uom = item.uom;
+                    child.so_detail = item.name;  // the SO Item row name — key for DN linking
+                });
+                frm.refresh_field('so_items');
             });
+        } else {
+            frm.doc.so_items = [];
+            frm.refresh_field('so_items');
+            frm.set_value("customer", "");
         }
     },
+
     calculate_totals: function(frm) {
         let total_cartons = (frm.doc.cartons || []).length;
         let total_weight = (frm.doc.cartons || [])
@@ -46,10 +64,8 @@ frappe.ui.form.on('Dispatch Log', {
         frm.set_value('total_cartons', total_cartons);
         frm.set_value('total_gross_weight', parseFloat(total_weight.toFixed(2)));
     },
-    rebuild_items_summary: function(frm) {
-        // Clear existing items summary
-        frm.doc.dispatch_items = [];
 
+    rebuild_items_summary: function(frm) {
         let item_map = {};
         let promises = [];
 

@@ -4,6 +4,7 @@ from frappe.utils import flt
 
 class DispatchLog(Document):
 	def before_save(self):
+		self.populate_so_items()
 		self.populate_items_summary()
 
 	def on_submit(self):
@@ -22,6 +23,23 @@ class DispatchLog(Document):
 			status = frappe.db.get_value("Carton Box Log", row.carton_id, "status")
 			if status != "Available":
 				frappe.throw(f"Carton {row.carton_id} is already dispatched or not available.")
+
+	def populate_so_items(self):
+		"""Populate the SO items table from the selected Sales Order."""
+		try:
+			self.so_items = []
+			if self.sales_order:
+				so = frappe.get_doc("Sales Order", self.sales_order)
+				for item in so.items:
+					self.append("so_items", {
+						"item_code": item.item_code,
+						"item_name": item.item_name,
+						"ordered_qty": item.qty,
+						"uom": item.uom,
+						"so_detail": item.name  # SO Item row name for DN linking
+					})
+		except AttributeError:
+			pass
 
 	def get_aggregated_items(self):
 		"""Aggregate items from all cartons into a dict keyed by item_code."""
@@ -62,7 +80,7 @@ class DispatchLog(Document):
 			pass
 
 	def validate_items_against_sales_order(self):
-		"""Block submission if dispatched items don't match the Sales Order."""
+		"""Check that dispatched items exist in the Sales Order."""
 		if not self.sales_order:
 			return
 
@@ -76,19 +94,20 @@ class DispatchLog(Document):
 
 		item_map = self.get_aggregated_items()
 
-		errors = []
+		warnings = []
 		for key, item in item_map.items():
 			if key not in so_items:
-				errors.append(f"Item <b>{key}</b> is not in Sales Order {self.sales_order}")
+				warnings.append(f"Item <b>{key}</b> is not in Sales Order {self.sales_order}")
 			elif flt(item["total_qty"]) > so_items[key]:
-				errors.append(
+				warnings.append(
 					f"Item <b>{key}</b>: dispatching {item['total_qty']} but SO has only {so_items[key]}"
 				)
 
-		if errors:
-			frappe.throw(
-				"<br>".join(errors),
-				title="Sales Order Mismatch"
+		if warnings:
+			frappe.msgprint(
+				"<br>".join(warnings),
+				title="Sales Order Mismatch",
+				indicator="orange"
 			)
 
 	def calculate_totals(self):
@@ -109,11 +128,22 @@ class DispatchLog(Document):
 	def get_so_item_map(self):
 		"""Build a map of item_code -> SO Item row name for linking DN to SO."""
 		so_item_map = {}
-		if self.sales_order:
+		# Try from so_items child table first (has so_detail stored)
+		try:
+			for row in (self.so_items or []):
+				if row.item_code and row.so_detail:
+					if row.item_code not in so_item_map:
+						so_item_map[row.item_code] = row.so_detail
+		except AttributeError:
+			pass
+
+		# Fallback: fetch directly from SO
+		if not so_item_map and self.sales_order:
 			so = frappe.get_doc("Sales Order", self.sales_order)
 			for item in so.items:
 				if item.item_code not in so_item_map:
 					so_item_map[item.item_code] = item.name
+
 		return so_item_map
 
 	def make_delivery_note(self):
@@ -137,7 +167,7 @@ class DispatchLog(Document):
 					"conversion_factor": 1,
 					"warehouse": cbl.warehouse,
 				}
-				# Link to Sales Order Item so ERPNext tracks fulfillment
+				# Link to Sales Order Item for fulfillment tracking
 				if item.item_code in so_item_map:
 					dn_item["against_sales_order"] = self.sales_order
 					dn_item["so_detail"] = so_item_map[item.item_code]
@@ -146,12 +176,13 @@ class DispatchLog(Document):
 
 		dn.flags.ignore_permissions = True
 		dn.insert(ignore_permissions=True)
-
-		frappe.flags.allow_negative_stock = True
-		dn.submit()
-		frappe.flags.allow_negative_stock = False
-
+		# Leave DN in Draft state — user can review and submit manually
 		self.db_set("delivery_note", dn.name)
+		frappe.msgprint(
+			f"Delivery Note <a href='/app/delivery-note/{dn.name}'><b>{dn.name}</b></a> created in Draft.",
+			indicator="green",
+			alert=True
+		)
 
 	def update_carton_box_logs(self):
 		dn_name = frappe.db.get_value("Dispatch Log", self.name, "delivery_note") or ""

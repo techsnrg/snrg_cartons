@@ -49,6 +49,7 @@ class DispatchLog(Document):
 					"uom": item.uom,
 					"stock_uom": item.uom,
 					"conversion_factor": 1,
+					"warehouse": cbl.warehouse,
 				}
 				dn.append("items", dn_item)
 

@@ -4,7 +4,11 @@ from frappe.utils import flt
 
 class DispatchLog(Document):
 	def before_save(self):
-		self.populate_items_summary()
+		try:
+			self.populate_items_summary()
+		except AttributeError:
+			# dispatch_items field not yet migrated — skip silently
+			pass
 
 	def on_submit(self):
 		self.validate_carton_status()

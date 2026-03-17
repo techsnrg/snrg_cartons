@@ -4,11 +4,7 @@ from frappe.utils import flt
 
 class DispatchLog(Document):
 	def before_save(self):
-		try:
-			self.populate_items_summary()
-		except AttributeError:
-			# dispatch_items field not yet migrated — skip silently
-			pass
+		self.populate_items_summary()
 
 	def on_submit(self):
 		self.validate_carton_status()
@@ -27,11 +23,9 @@ class DispatchLog(Document):
 			if status != "Available":
 				frappe.throw(f"Carton {row.carton_id} is already dispatched or not available.")
 
-	def populate_items_summary(self):
-		"""Aggregate items from all cartons into the dispatch_items child table."""
-		self.dispatch_items = []
+	def get_aggregated_items(self):
+		"""Aggregate items from all cartons into a dict keyed by item_code."""
 		item_map = {}
-
 		for row in (self.cartons or []):
 			if not row.carton_id:
 				continue
@@ -49,18 +43,26 @@ class DispatchLog(Document):
 				item_map[key]["total_qty"] += flt(item.qty)
 				if row.carton_id not in item_map[key]["cartons"]:
 					item_map[key]["cartons"].append(row.carton_id)
+		return item_map
 
-		for item in item_map.values():
-			self.append("dispatch_items", {
-				"item_code": item["item_code"],
-				"item_name": item["item_name"],
-				"total_qty": item["total_qty"],
-				"uom": item["uom"],
-				"from_cartons": ", ".join(item["cartons"])
-			})
+	def populate_items_summary(self):
+		"""Populate the dispatch_items child table if it exists (post-migration)."""
+		try:
+			self.dispatch_items = []
+			item_map = self.get_aggregated_items()
+			for item in item_map.values():
+				self.append("dispatch_items", {
+					"item_code": item["item_code"],
+					"item_name": item["item_name"],
+					"total_qty": item["total_qty"],
+					"uom": item["uom"],
+					"from_cartons": ", ".join(item["cartons"])
+				})
+		except AttributeError:
+			pass
 
 	def validate_items_against_sales_order(self):
-		"""Check that all dispatched items exist in the Sales Order."""
+		"""Check that dispatched items exist in the Sales Order."""
 		if not self.sales_order:
 			return
 
@@ -72,13 +74,16 @@ class DispatchLog(Document):
 				so_items[key] = 0
 			so_items[key] += flt(item.qty)
 
+		# Use aggregated items directly from cartons (works pre and post migration)
+		item_map = self.get_aggregated_items()
+
 		warnings = []
-		for row in (self.dispatch_items or []):
-			if row.item_code not in so_items:
-				warnings.append(f"Item <b>{row.item_code}</b> is not in Sales Order {self.sales_order}")
-			elif flt(row.total_qty) > so_items[row.item_code]:
+		for key, item in item_map.items():
+			if key not in so_items:
+				warnings.append(f"Item <b>{key}</b> is not in Sales Order {self.sales_order}")
+			elif flt(item["total_qty"]) > so_items[key]:
 				warnings.append(
-					f"Item <b>{row.item_code}</b>: dispatching {row.total_qty} but SO has only {so_items[row.item_code]}"
+					f"Item <b>{key}</b>: dispatching {item['total_qty']} but SO has only {so_items[key]}"
 				)
 
 		if warnings:

@@ -181,7 +181,7 @@
    "fieldname": "selected_transporter",
    "fieldtype": "Link",
    "label": "Selected Transporter",
-   "options": "Transporter",
+   "options": "Supplier",
    "read_only": 1,
    "no_copy": 1
   },

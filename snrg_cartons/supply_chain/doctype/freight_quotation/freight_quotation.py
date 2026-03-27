@@ -87,8 +87,8 @@ def calculate_freight(name):
 	doc.total_weight_kg = flt(dl.total_gross_weight)
 	doc.total_volume_cm3 = _get_total_volume(dl)
 
-	# 3. Loop all active transporters
-	transporters = frappe.get_all("Transporter", filters={"is_active": 1}, fields=["name"])
+	# 3. Loop all suppliers marked as transporter
+	transporters = frappe.get_all("Supplier", filters={"is_transporter": 1, "disabled": 0}, fields=["name"])
 	for t in transporters:
 		_append_transporter_row(doc, t.name, today_date)
 
@@ -145,7 +145,7 @@ def _append_transporter_row(doc, transporter_name, today_date):
 	# Get active rate card
 	rate_card_name = _get_active_rate_card(transporter_name, today_date)
 	if not rate_card_name:
-		return  # No valid rate card — skip silently
+		return  # No active rate card for this transporter — skip silently
 
 	rc = frappe.get_doc("Transporter Rate Card", rate_card_name)
 

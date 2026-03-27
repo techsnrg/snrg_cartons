@@ -1,4 +1,11 @@
 frappe.ui.form.on('Transporter Rate Card', {
+	onload: function(frm) {
+		// Filter transporter link to only show suppliers marked as transporter
+		frm.set_query('transporter', function() {
+			return { filters: { is_transporter: 1 } };
+		});
+	},
+
 	refresh: function(frm) {
 		// Show validity status badge
 		if (frm.doc.docstatus === 1) {

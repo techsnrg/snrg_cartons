@@ -32,7 +32,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Transporter",
-   "options": "Transporter",
+   "options": "Supplier",
    "read_only": 1
   },
   {

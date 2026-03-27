@@ -1,4 +1,4 @@
-frappe.ui.form.on('Carton Box Log', {
+frappe.ui.form.on('Packed Carton', {
 
 	refresh: function(frm) {
 		// Add Item button — only on unsaved / draft forms
@@ -11,7 +11,7 @@ frappe.ui.form.on('Carton Box Log', {
 
 	box_type: function(frm) {
 		if (frm.doc.box_type) {
-			frappe.db.get_doc('Carton Box Type', frm.doc.box_type)
+			frappe.db.get_doc('Carton Type', frm.doc.box_type)
 			.then(doc => {
 				frm.set_value('dimensions', `${doc.length_in} × ${doc.width_in} × ${doc.height_in} in`);
 				frm.set_value('empty_weight_g', doc.empty_weight_g);
@@ -31,7 +31,7 @@ frappe.ui.form.on('Carton Box Log', {
 });
 
 // When item_code is selected in child table → fetch item name, UOM, weight
-frappe.ui.form.on('Carton Box Log Item', {
+frappe.ui.form.on('Packed Carton Item', {
 	item_code: function(frm, cdt, cdn) {
 		let row = locals[cdt][cdn];
 		if (row.item_code) {

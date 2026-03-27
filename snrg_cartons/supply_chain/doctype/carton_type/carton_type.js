@@ -1,4 +1,4 @@
-frappe.ui.form.on('Carton Box Type', {
+frappe.ui.form.on('Carton Type', {
 	// refresh: function(frm) {
 	// }
 });

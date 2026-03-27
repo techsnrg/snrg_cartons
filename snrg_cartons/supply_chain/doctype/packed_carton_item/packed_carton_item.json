@@ -4,45 +4,48 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "carton_id",
-  "box_type",
-  "packed_date",
-  "items_summary",
-  "gross_weight_kg"
+  "item_code",
+  "item_name",
+  "qty",
+  "uom",
+  "item_weight_kg"
  ],
  "fields": [
   {
-   "fieldname": "carton_id",
+   "fieldname": "item_code",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Carton ID",
-   "options": "Carton Box Log",
+   "label": "Item code",
+   "options": "Item",
    "reqd": 1
   },
   {
-   "fieldname": "box_type",
+   "fieldname": "item_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Box type",
+   "label": "Item name",
    "read_only": 0
   },
   {
-   "fieldname": "packed_date",
-   "fieldtype": "Date",
-   "in_list_view": 1,
-   "label": "Packed date",
-   "read_only": 0
-  },
-  {
-   "fieldname": "items_summary",
-   "fieldtype": "Small Text",
-   "label": "Items summary",
-   "read_only": 0
-  },
-  {
-   "fieldname": "gross_weight_kg",
+   "fieldname": "qty",
    "fieldtype": "Float",
-   "label": "Gross weight (kg)",
+   "in_list_view": 1,
+   "label": "Qty",
+   "reqd": 1
+  },
+  {
+   "default": "PCS",
+   "fieldname": "uom",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "UOM",
+   "options": "UOM",
+   "reqd": 1
+  },
+  {
+   "fieldname": "item_weight_kg",
+   "fieldtype": "Float",
+   "label": "Item weight (kg)",
    "read_only": 0
   }
  ],
@@ -52,7 +55,7 @@
  "modified": "2026-03-16 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "Supply Chain",
- "name": "Dispatch Log CTN",
+ "name": "Packed Carton Item",
  "owner": "Administrator",
  "permissions": [],
  "sort_field": "modified",

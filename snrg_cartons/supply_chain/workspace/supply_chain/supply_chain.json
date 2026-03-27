@@ -1,7 +1,7 @@
 {
  "category": "Modules",
  "charts": [],
- "content": "[{\"id\":\"zwxyz1\",\"type\":\"header\",\"data\":{\"text\":\"Carton Management\",\"col\":12}},{\"id\":\"zwxyz2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Dispatch Log\",\"col\":3}},{\"id\":\"zwxyz3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Carton Box Log\",\"col\":3}},{\"id\":\"zwxyz4\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Carton Box Type\",\"col\":3}},{\"id\":\"zwxyz5\",\"type\":\"header\",\"data\":{\"text\":\"Freight Management\",\"col\":12}},{\"id\":\"zwxyz6\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Freight Quotation\",\"col\":3}},{\"id\":\"zwxyz7\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Supplier (Transporters)\",\"col\":3}},{\"id\":\"zwxyz8\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Transporter Rate Card\",\"col\":3}},{\"id\":\"zwxyz9\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Transporter Serviceability\",\"col\":3}},{\"id\":\"zwxyz10\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Freight Zone\",\"col\":3}}]",
+ "content": "[{\"id\":\"zwxyz1\",\"type\":\"header\",\"data\":{\"text\":\"Carton Management\",\"col\":12}},{\"id\":\"zwxyz2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Outward Shipment\",\"col\":3}},{\"id\":\"zwxyz3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Packed Carton\",\"col\":3}},{\"id\":\"zwxyz4\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Carton Type\",\"col\":3}},{\"id\":\"zwxyz5\",\"type\":\"header\",\"data\":{\"text\":\"Freight Management\",\"col\":12}},{\"id\":\"zwxyz6\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Freight Quotation\",\"col\":3}},{\"id\":\"zwxyz7\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Supplier (Transporters)\",\"col\":3}},{\"id\":\"zwxyz8\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Transporter Rate Card\",\"col\":3}},{\"id\":\"zwxyz9\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Transporter Serviceability\",\"col\":3}},{\"id\":\"zwxyz10\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Freight Zone\",\"col\":3}}]",
  "creation": "2026-03-27 12:00:00.000000",
  "developer_mode_only": 0,
  "disable_user_customization": 0,
@@ -27,9 +27,9 @@
    "dependencies": "",
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Dispatch Log",
+   "label": "Outward Shipment",
    "link_count": 0,
-   "link_to": "Dispatch Log",
+   "link_to": "Outward Shipment",
    "link_type": "DocType",
    "onboard": 1,
    "type": "Link"
@@ -38,9 +38,9 @@
    "dependencies": "",
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Carton Box Log",
+   "label": "Packed Carton",
    "link_count": 0,
-   "link_to": "Carton Box Log",
+   "link_to": "Packed Carton",
    "link_type": "DocType",
    "onboard": 1,
    "type": "Link"
@@ -49,9 +49,9 @@
    "dependencies": "",
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Carton Box Type",
+   "label": "Carton Type",
    "link_count": 0,
-   "link_to": "Carton Box Type",
+   "link_to": "Carton Type",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -133,21 +133,21 @@
   {
    "color": "Blue",
    "format": "{} Active",
-   "label": "Dispatch Log",
-   "link_to": "Dispatch Log",
+   "label": "Outward Shipment",
+   "link_to": "Outward Shipment",
    "stats_filter": "{ \"docstatus\": 1 }",
    "type": "DocType"
   },
   {
    "color": "Green",
-   "label": "Carton Box Log",
-   "link_to": "Carton Box Log",
+   "label": "Packed Carton",
+   "link_to": "Packed Carton",
    "type": "DocType"
   },
   {
    "color": "Grey",
-   "label": "Carton Box Type",
-   "link_to": "Carton Box Type",
+   "label": "Carton Type",
+   "link_to": "Carton Type",
    "type": "DocType"
   },
   {

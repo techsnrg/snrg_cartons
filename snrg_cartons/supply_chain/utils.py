@@ -99,11 +99,11 @@ def _generate_svg_barcode(text):
 
 @frappe.whitelist()
 def get_packing_list_data(dispatch_log_name):
-	"""Return carton-wise details and aggregated item summary for a Dispatch Log.
+	"""Return carton-wise details and aggregated item summary for an Outward Shipment.
 	Called from the packing list Jinja template to avoid sandbox restrictions."""
 	from frappe.utils import flt
 
-	dl = frappe.get_doc("Dispatch Log", dispatch_log_name)
+	dl = frappe.get_doc("Outward Shipment", dispatch_log_name)
 	cartons = []
 	item_summary = {}
 	grand_pieces = 0
@@ -111,7 +111,7 @@ def get_packing_list_data(dispatch_log_name):
 	grand_gross = 0.0
 
 	for row in (dl.cartons or []):
-		cbl = frappe.get_doc("Carton Box Log", row.carton_id)
+		cbl = frappe.get_doc("Packed Carton", row.carton_id)
 		carton_pieces = 0
 		carton_items = []
 

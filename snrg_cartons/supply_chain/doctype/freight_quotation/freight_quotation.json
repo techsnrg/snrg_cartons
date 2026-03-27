@@ -38,8 +38,8 @@
    "fieldname": "dispatch_log",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Dispatch Log",
-   "options": "Dispatch Log",
+   "label": "Outward Shipment",
+   "options": "Outward Shipment",
    "reqd": 1
   },
   {

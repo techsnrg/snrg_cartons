@@ -22,7 +22,7 @@
   "gross_weight_kg",
   "dispatch_info_section",
   "status",
-  "dispatch_log",
+  "outward_shipment",
   "delivery_note",
   "col_break_dispatch",
   "customer",
@@ -42,14 +42,15 @@
    "label": "Series",
    "options": "CTN-.#####",
    "reqd": 1,
-   "set_only_once": 1
+   "set_only_once": 1,
+   "hidden": 1
   },
   {
    "fieldname": "box_type",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Box Type",
-   "options": "Carton Box Type",
+   "options": "Carton Type",
    "reqd": 1
   },
   {
@@ -101,7 +102,7 @@
    "fieldname": "items",
    "fieldtype": "Table",
    "label": "Items",
-   "options": "Carton Box Log Item",
+   "options": "Packed Carton Item",
    "reqd": 1
   },
   {
@@ -143,11 +144,11 @@
    "reqd": 1
   },
   {
-   "fieldname": "dispatch_log",
+   "fieldname": "outward_shipment",
    "fieldtype": "Link",
-   "label": "Dispatch Log",
+   "label": "Outward Shipment",
    "no_copy": 1,
-   "options": "Dispatch Log",
+   "options": "Outward Shipment",
    "read_only": 1
   },
   {
@@ -191,7 +192,7 @@
  "modified": "2026-03-28 13:00:00.000000",
  "modified_by": "Administrator",
  "module": "Supply Chain",
- "name": "Carton Box Log",
+ "name": "Packed Carton",
  "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
@@ -209,7 +210,7 @@
   }
  ],
  "default_print_format": "Carton Sticker",
- "search_fields": "name,customer,dispatch_log",
+ "search_fields": "name,customer,outward_shipment",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [

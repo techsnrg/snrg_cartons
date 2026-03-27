@@ -1,8 +1,8 @@
-frappe.ui.form.on('Dispatch Log CTN', {
+frappe.ui.form.on('Outward Shipment Carton', {
     carton_id: function(frm, cdt, cdn) {
         let row = locals[cdt][cdn];
         if (row.carton_id) {
-            frappe.db.get_doc('Carton Box Log', row.carton_id).then(cbl => {
+            frappe.db.get_doc('Packed Carton', row.carton_id).then(cbl => {
                 let summary = (cbl.items || [])
                     .map(i => `${i.item_code} × ${i.qty}`)
                     .join(', ');
@@ -21,9 +21,9 @@ frappe.ui.form.on('Dispatch Log CTN', {
     }
 });
 
-frappe.ui.form.on('Dispatch Log', {
+frappe.ui.form.on('Outward Shipment', {
     refresh: function(frm) {
-        // Freight quote button on submitted dispatch logs
+        // Freight quote button on submitted outward shipments
         if (frm.doc.docstatus === 1) {
             if (frm.doc.freight_quotation) {
                 frm.add_custom_button(__('View Freight Quote'), function() {
@@ -105,7 +105,7 @@ frappe.ui.form.on('Dispatch Log', {
         (frm.doc.cartons || []).forEach(row => {
             if (row.carton_id) {
                 promises.push(
-                    frappe.db.get_doc('Carton Box Log', row.carton_id).then(cbl => {
+                    frappe.db.get_doc('Packed Carton', row.carton_id).then(cbl => {
                         (cbl.items || []).forEach(item => {
                             let key = item.item_code;
                             if (!item_map[key]) {

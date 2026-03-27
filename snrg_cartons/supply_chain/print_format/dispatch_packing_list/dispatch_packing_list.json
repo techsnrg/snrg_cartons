@@ -1,7 +1,7 @@
 {
  "doctype": "Print Format",
  "name": "Dispatch Packing List",
- "doc_type": "Dispatch Log",
+ "doc_type": "Outward Shipment",
  "module": "Supply Chain",
  "print_format_type": "Jinja",
  "standard": "Yes",

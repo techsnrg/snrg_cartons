@@ -2,7 +2,7 @@ import frappe
 from frappe.model.document import Document
 from frappe.utils import flt
 
-class CartonBoxLog(Document):
+class PackedCarton(Document):
 	def before_save(self):
 		self.set_box_type_details()
 		self.set_item_details()
@@ -14,7 +14,7 @@ class CartonBoxLog(Document):
 	def set_box_type_details(self):
 		if self.box_type:
 			try:
-				box_doc = frappe.get_cached_doc("Carton Box Type", self.box_type)
+				box_doc = frappe.get_cached_doc("Carton Type", self.box_type)
 				self.dimensions = f"{box_doc.length_in} × {box_doc.width_in} × {box_doc.height_in} in"
 				self.empty_weight_g = flt(box_doc.empty_weight_g)
 			except Exception:

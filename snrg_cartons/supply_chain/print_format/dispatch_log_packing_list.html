@@ -92,7 +92,7 @@
     <div class="meta-block">
         <div class="meta-col left-col">
             <table class="meta-table">
-                <tr><td><strong>Dispatch Log:</strong></td><td>{{ doc.name }}</td></tr>
+                <tr><td><strong>Outward Shipment:</strong></td><td>{{ doc.name }}</td></tr>
                 <tr><td><strong>Sales Order:</strong></td><td>{{ doc.sales_order }}</td></tr>
                 <tr><td><strong>Customer:</strong></td><td>{{ doc.customer }}</td></tr>
                 <tr><td><strong>Address:</strong></td><td>{{ doc.customer_address or '' }}</td></tr>
@@ -116,7 +116,7 @@
                 <div>Box {{ row.box_type }}</div>
             </div>
             <table class="carton-items">
-                {% set items = frappe.get_doc("Carton Box Log", row.carton_id).items %}
+                {% set items = frappe.get_doc("Packed Carton", row.carton_id).items %}
                 {% if items %}
                     {% for item in items %}
                     <tr>

@@ -27,7 +27,7 @@ class FreightQuotation(Document):
 @frappe.whitelist()
 def create_from_dispatch(dispatch_log):
 	"""
-	Create a new Freight Quotation from a submitted Dispatch Log.
+	Create a new Freight Quotation from a submitted Outward Shipment.
 	Returns the name of the created Freight Quotation.
 	"""
 	# Check if one already exists
@@ -35,7 +35,7 @@ def create_from_dispatch(dispatch_log):
 	if existing:
 		return existing
 
-	dl = frappe.get_doc("Dispatch Log", dispatch_log)
+	dl = frappe.get_doc("Outward Shipment", dispatch_log)
 
 	fq = frappe.new_doc("Freight Quotation")
 	fq.dispatch_log = dispatch_log
@@ -54,8 +54,8 @@ def create_from_dispatch(dispatch_log):
 	fq.insert()
 	frappe.db.commit()
 
-	# Link back to Dispatch Log
-	frappe.db.set_value("Dispatch Log", dispatch_log, "freight_quotation", fq.name)
+	# Link back to Outward Shipment
+	frappe.db.set_value("Outward Shipment", dispatch_log, "freight_quotation", fq.name)
 
 	return fq.name
 
@@ -83,7 +83,7 @@ def calculate_freight(name):
 	doc.matched_freight_zone = _resolve_freight_zone(addr.city, addr.state)
 
 	# 2. Recalculate volume (in case cartons were updated)
-	dl = frappe.get_doc("Dispatch Log", doc.dispatch_log)
+	dl = frappe.get_doc("Outward Shipment", doc.dispatch_log)
 	doc.total_weight_kg = flt(dl.total_gross_weight)
 	doc.total_volume_cm3 = _get_total_volume(dl)
 
@@ -106,7 +106,7 @@ def calculate_freight(name):
 def finalize_selection(name):
 	"""
 	Finalize the selected transporter.
-	Copies selection to Freight Quotation header and back-updates Dispatch Log.
+	Copies selection to Freight Quotation header and back-updates Outward Shipment.
 	"""
 	doc = frappe.get_doc("Freight Quotation", name)
 
@@ -125,8 +125,8 @@ def finalize_selection(name):
 	doc.status = "Finalized"
 	doc.save()
 
-	# Update Dispatch Log
-	frappe.db.set_value("Dispatch Log", doc.dispatch_log, {
+	# Update Outward Shipment
+	frappe.db.set_value("Outward Shipment", doc.dispatch_log, {
 		"selected_transporter": row.transporter,
 		"freight_amount": row.total_freight
 	})
@@ -351,10 +351,10 @@ def _get_total_volume(dispatch_log_doc):
 	"""Sum L×W×H (in³) for all cartons in the dispatch log."""
 	total = 0.0
 	for ctn_row in dispatch_log_doc.cartons:
-		box_type = frappe.db.get_value("Carton Box Log", ctn_row.carton_id, "box_type")
+		box_type = frappe.db.get_value("Packed Carton", ctn_row.carton_id, "box_type")
 		if box_type:
 			dims = frappe.db.get_value(
-				"Carton Box Type", box_type,
+				"Carton Type", box_type,
 				["length_in", "width_in", "height_in"], as_dict=True
 			)
 			if dims:

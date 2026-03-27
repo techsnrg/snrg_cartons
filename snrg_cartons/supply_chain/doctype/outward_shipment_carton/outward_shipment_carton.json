@@ -4,48 +4,45 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "item_code",
-  "item_name",
-  "qty",
-  "uom",
-  "item_weight_kg"
+  "carton_id",
+  "box_type",
+  "packed_date",
+  "items_summary",
+  "gross_weight_kg"
  ],
  "fields": [
   {
-   "fieldname": "item_code",
+   "fieldname": "carton_id",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Item code",
-   "options": "Item",
+   "label": "Carton ID",
+   "options": "Packed Carton",
    "reqd": 1
   },
   {
-   "fieldname": "item_name",
+   "fieldname": "box_type",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Item name",
+   "label": "Box type",
    "read_only": 0
   },
   {
-   "fieldname": "qty",
-   "fieldtype": "Float",
+   "fieldname": "packed_date",
+   "fieldtype": "Date",
    "in_list_view": 1,
-   "label": "Qty",
-   "reqd": 1
+   "label": "Packed date",
+   "read_only": 0
   },
   {
-   "default": "PCS",
-   "fieldname": "uom",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "UOM",
-   "options": "UOM",
-   "reqd": 1
+   "fieldname": "items_summary",
+   "fieldtype": "Small Text",
+   "label": "Items summary",
+   "read_only": 0
   },
   {
-   "fieldname": "item_weight_kg",
+   "fieldname": "gross_weight_kg",
    "fieldtype": "Float",
-   "label": "Item weight (kg)",
+   "label": "Gross weight (kg)",
    "read_only": 0
   }
  ],
@@ -55,7 +52,7 @@
  "modified": "2026-03-16 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "Supply Chain",
- "name": "Carton Box Log Item",
+ "name": "Outward Shipment Carton",
  "owner": "Administrator",
  "permissions": [],
  "sort_field": "modified",

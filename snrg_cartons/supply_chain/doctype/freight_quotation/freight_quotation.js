@@ -19,10 +19,10 @@ frappe.ui.form.on('Freight Quotation', {
 			);
 		}
 
-		// Dispatch Log quick link
+		// Outward Shipment quick link
 		if (frm.doc.dispatch_log) {
-			frm.add_custom_button(__('View Dispatch Log'), function() {
-				frappe.set_route('Form', 'Dispatch Log', frm.doc.dispatch_log);
+			frm.add_custom_button(__('View Outward Shipment'), function() {
+				frappe.set_route('Form', 'Outward Shipment', frm.doc.dispatch_log);
 			}, __('Links'));
 		}
 	},
@@ -79,7 +79,7 @@ frappe.ui.form.on('Freight Quotation', {
 		if (has_selection && frm.doc.freight_options.length > 0) {
 			frm.add_custom_button(__('Finalize Selection'), function() {
 				frappe.confirm(
-					__('This will lock the selected transporter and update the Dispatch Log. Continue?'),
+					__('This will lock the selected transporter and update the Outward Shipment. Continue?'),
 					function() {
 						frappe.call({
 							method: 'snrg_cartons.supply_chain.doctype.freight_quotation.freight_quotation.finalize_selection',

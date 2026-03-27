@@ -2,7 +2,7 @@ import frappe
 from frappe.model.document import Document
 from frappe.utils import flt
 
-class DispatchLog(Document):
+class OutwardShipment(Document):
 	def before_save(self):
 		self.populate_so_items()
 		self.populate_items_summary()
@@ -15,12 +15,12 @@ class DispatchLog(Document):
 		if self.create_delivery_note:
 			self.make_delivery_note()
 
-		self.update_carton_box_logs()
+		self.update_packed_cartons()
 		self.db_set('status', 'Submitted')
 
 	def validate_carton_status(self):
 		for row in self.cartons:
-			status = frappe.db.get_value("Carton Box Log", row.carton_id, "status")
+			status = frappe.db.get_value("Packed Carton", row.carton_id, "status")
 			if status != "Available":
 				frappe.throw(f"Carton {row.carton_id} is already dispatched or not available.")
 
@@ -47,7 +47,7 @@ class DispatchLog(Document):
 		for row in (self.cartons or []):
 			if not row.carton_id:
 				continue
-			cbl = frappe.get_doc("Carton Box Log", row.carton_id)
+			cbl = frappe.get_doc("Packed Carton", row.carton_id)
 			for item in (cbl.items or []):
 				key = item.item_code
 				if key not in item_map:
@@ -121,7 +121,7 @@ class DispatchLog(Document):
 		total_gross_weight = 0
 
 		for row in self.cartons:
-			cbl = frappe.get_doc("Carton Box Log", row.carton_id)
+			cbl = frappe.get_doc("Packed Carton", row.carton_id)
 			total_gross_weight += flt(cbl.gross_weight_kg)
 			for item in (cbl.items or []):
 				total_pieces += flt(item.qty)
@@ -161,7 +161,7 @@ class DispatchLog(Document):
 		so_item_map = self.get_so_item_map()
 
 		for row in self.cartons:
-			cbl = frappe.get_doc("Carton Box Log", row.carton_id)
+			cbl = frappe.get_doc("Packed Carton", row.carton_id)
 			for item in (cbl.items or []):
 				dn_item = {
 					"item_code": item.item_code,
@@ -189,13 +189,13 @@ class DispatchLog(Document):
 			alert=True
 		)
 
-	def update_carton_box_logs(self):
-		dn_name = frappe.db.get_value("Dispatch Log", self.name, "delivery_note") or ""
+	def update_packed_cartons(self):
+		dn_name = frappe.db.get_value("Outward Shipment", self.name, "delivery_note") or ""
 
 		for row in self.cartons:
-			frappe.db.set_value("Carton Box Log", row.carton_id, {
+			frappe.db.set_value("Packed Carton", row.carton_id, {
 				"status": "Dispatched",
-				"dispatch_log": self.name,
+				"outward_shipment": self.name,
 				"delivery_note": dn_name,
 				"customer": self.customer,
 				"dispatched_date": self.dispatch_date
@@ -203,9 +203,9 @@ class DispatchLog(Document):
 
 	def on_cancel(self):
 		for row in self.cartons:
-			frappe.db.set_value("Carton Box Log", row.carton_id, {
+			frappe.db.set_value("Packed Carton", row.carton_id, {
 				"status": "Available",
-				"dispatch_log": "",
+				"outward_shipment": "",
 				"delivery_note": "",
 				"customer": "",
 				"dispatched_date": None

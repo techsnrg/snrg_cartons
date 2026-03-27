@@ -91,7 +91,7 @@
    "fieldname": "so_items",
    "fieldtype": "Table",
    "label": "Sales Order Items",
-   "options": "Dispatch Log SO Item",
+   "options": "Outward Shipment SO Item",
    "read_only": 1
   },
   {
@@ -103,7 +103,7 @@
    "fieldname": "cartons",
    "fieldtype": "Table",
    "label": "Cartons",
-   "options": "Dispatch Log CTN",
+   "options": "Outward Shipment Carton",
    "reqd": 1
   },
   {
@@ -115,7 +115,7 @@
    "fieldname": "dispatch_items",
    "fieldtype": "Table",
    "label": "Items",
-   "options": "Dispatch Log Item",
+   "options": "Outward Shipment Item",
    "read_only": 0
   },
   {
@@ -197,7 +197,7 @@
    "fieldtype": "Link",
    "label": "Amended From",
    "no_copy": 1,
-   "options": "Dispatch Log",
+   "options": "Outward Shipment",
    "print_hide": 1,
    "read_only": 1
   }
@@ -208,7 +208,7 @@
  "modified": "2026-03-18 00:50:00.000000",
  "modified_by": "Administrator",
  "module": "Supply Chain",
- "name": "Dispatch Log",
+ "name": "Outward Shipment",
  "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [

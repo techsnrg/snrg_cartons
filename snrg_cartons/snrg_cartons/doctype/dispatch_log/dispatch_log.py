@@ -80,7 +80,11 @@ class DispatchLog(Document):
 			pass
 
 	def validate_items_against_sales_order(self):
-		"""Check that dispatched items exist in the Sales Order."""
+		"""
+		Block submission if dispatched items are not in the Sales Order
+		or if dispatched quantity exceeds the ordered quantity.
+		Partial dispatches (qty < SO qty) are allowed.
+		"""
 		if not self.sales_order:
 			return
 
@@ -88,26 +92,27 @@ class DispatchLog(Document):
 		so_items = {}
 		for item in so.items:
 			key = item.item_code
-			if key not in so_items:
-				so_items[key] = 0
-			so_items[key] += flt(item.qty)
+			so_items[key] = so_items.get(key, 0) + flt(item.qty)
 
 		item_map = self.get_aggregated_items()
 
-		warnings = []
+		errors = []
 		for key, item in item_map.items():
 			if key not in so_items:
-				warnings.append(f"Item <b>{key}</b> is not in Sales Order {self.sales_order}")
+				errors.append(
+					f"Item <b>{key}</b> is not part of Sales Order <b>{self.sales_order}</b>."
+				)
 			elif flt(item["total_qty"]) > so_items[key]:
-				warnings.append(
-					f"Item <b>{key}</b>: dispatching {item['total_qty']} but SO has only {so_items[key]}"
+				errors.append(
+					f"Item <b>{key}</b>: dispatching <b>{item['total_qty']}</b> "
+					f"but Sales Order has only <b>{so_items[key]}</b>."
 				)
 
-		if warnings:
-			frappe.msgprint(
-				"<br>".join(warnings),
-				title="Sales Order Mismatch",
-				indicator="orange"
+		if errors:
+			frappe.throw(
+				"Cannot submit — quantities do not match the Sales Order:<br><br>"
+				+ "<br>".join(f"• {e}" for e in errors),
+				title="Sales Order Mismatch"
 			)
 
 	def calculate_totals(self):

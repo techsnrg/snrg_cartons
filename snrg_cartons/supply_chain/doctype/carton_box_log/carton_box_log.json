@@ -8,17 +8,17 @@
   "carton_details_section",
   "naming_series",
   "box_type",
-  "dimensions",
-  "empty_weight_g",
+  "packed_by",
   "col_break_details",
   "packed_date",
-  "packed_by",
   "warehouse",
   "contents_section",
   "items",
   "weight_summary_section",
-  "net_weight_kg",
+  "dimensions",
+  "empty_weight_g",
   "col_break_weights",
+  "net_weight_kg",
   "gross_weight_kg",
   "dispatch_info_section",
   "status",
@@ -107,7 +107,7 @@
   {
    "fieldname": "weight_summary_section",
    "fieldtype": "Section Break",
-   "label": "Weight Summary"
+   "label": "Dimensions & Weight"
   },
   {
    "fieldname": "net_weight_kg",

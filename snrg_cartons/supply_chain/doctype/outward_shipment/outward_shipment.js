@@ -23,6 +23,13 @@ frappe.ui.form.on('Outward Shipment Carton', {
 
 frappe.ui.form.on('Outward Shipment', {
     refresh: function(frm) {
+        // Add Carton button on draft/unsaved shipments
+        if (frm.doc.docstatus === 0) {
+            frm.add_custom_button(__('Add Carton'), () => {
+                show_add_carton_dialog(frm);
+            }).addClass('btn-primary');
+        }
+
         // Freight quote button on submitted outward shipments
         if (frm.doc.docstatus === 1) {
             if (frm.doc.freight_quotation) {
@@ -146,3 +153,130 @@ frappe.ui.form.on('Outward Shipment', {
         });
     }
 });
+
+
+// ── Add Carton Dialog ──────────────────────────────────────────────────────
+
+function reset_carton_and_focus(d) {
+    d.set_value('carton_id', '');
+    d.set_value('box_type', '');
+    d.set_value('packed_date', '');
+    d.set_value('gross_weight_kg', 0);
+    d.set_value('items_preview', '');
+    setTimeout(() => {
+        let $input = d.fields_dict.carton_id && d.fields_dict.carton_id.$input;
+        if ($input) {
+            $input.val('');
+            $input.trigger('input');
+            $input.focus();
+        }
+    }, 80);
+}
+
+function show_add_carton_dialog(frm) {
+    let d = new frappe.ui.Dialog({
+        title: __('Add Carton to Shipment'),
+        fields: [
+            {
+                fieldname: 'carton_id',
+                fieldtype: 'Link',
+                label: __('Carton ID'),
+                options: 'Packed Carton',
+                reqd: 1,
+                get_query: () => ({ filters: { status: 'Available' } }),
+                onchange: function() {
+                    let carton_id = d.get_value('carton_id');
+                    if (!carton_id) return;
+                    frappe.db.get_doc('Packed Carton', carton_id).then(cbl => {
+                        let preview = (cbl.items || [])
+                            .map(i => `${i.item_code} × ${parseInt(i.qty)} ${i.uom}`)
+                            .join('\n');
+                        d.set_value('box_type', cbl.box_type || '');
+                        d.set_value('packed_date', cbl.packed_date || '');
+                        d.set_value('gross_weight_kg', cbl.gross_weight_kg || 0);
+                        d.set_value('items_preview', preview || '(no items)');
+                    });
+                }
+            },
+            {
+                fieldtype: 'Column Break'
+            },
+            {
+                fieldname: 'gross_weight_kg',
+                fieldtype: 'Float',
+                label: __('Gross Weight (kg)'),
+                read_only: 1
+            },
+            {
+                fieldname: 'box_type',
+                fieldtype: 'Data',
+                label: __('Box Type'),
+                read_only: 1
+            },
+            {
+                fieldname: 'packed_date',
+                fieldtype: 'Date',
+                label: __('Packed Date'),
+                read_only: 1
+            },
+            {
+                fieldtype: 'Section Break',
+                label: __('Contents')
+            },
+            {
+                fieldname: 'items_preview',
+                fieldtype: 'Small Text',
+                label: __('Items'),
+                read_only: 1
+            }
+        ],
+        primary_action_label: __('Add to Shipment'),
+        primary_action: function(values) {
+            if (!values.carton_id) {
+                frappe.show_alert({ message: __('Please select a Carton first.'), indicator: 'orange' }, 3);
+                reset_carton_and_focus(d);
+                return;
+            }
+
+            // Check for duplicates
+            let already_added = (frm.doc.cartons || []).find(r => r.carton_id === values.carton_id);
+            if (already_added) {
+                frappe.show_alert({
+                    message: __(`${values.carton_id} is already in this shipment.`),
+                    indicator: 'orange'
+                }, 3);
+                reset_carton_and_focus(d);
+                return;
+            }
+
+            let summary = (d.get_value('items_preview') || '').replace(/\n/g, ', ');
+            frm.add_child('cartons', {
+                carton_id: values.carton_id,
+                box_type: values.box_type || '',
+                packed_date: values.packed_date || '',
+                gross_weight_kg: values.gross_weight_kg || 0,
+                items_summary: summary
+            });
+            frm.refresh_field('cartons');
+            frm.trigger('calculate_totals');
+            frm.trigger('rebuild_items_summary');
+
+            frappe.show_alert({
+                message: __(`${values.carton_id} added`),
+                indicator: 'green'
+            }, 3);
+
+            reset_carton_and_focus(d);
+        },
+        secondary_action_label: __('Done'),
+        secondary_action: function() { d.hide(); }
+    });
+
+    // Prevent Escape from closing dialog
+    d.$wrapper.on('keydown.add-carton-dialog', function(e) {
+        if (e.key === 'Escape') e.stopPropagation();
+    });
+
+    d.show();
+    setTimeout(() => reset_carton_and_focus(d), 300);
+}

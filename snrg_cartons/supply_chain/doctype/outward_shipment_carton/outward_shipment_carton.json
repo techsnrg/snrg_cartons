@@ -37,13 +37,15 @@
    "fieldname": "items_summary",
    "fieldtype": "Small Text",
    "label": "Items summary",
-   "read_only": 0
+   "read_only": 1,
+   "hidden": 1
   },
   {
    "fieldname": "gross_weight_kg",
    "fieldtype": "Float",
+   "in_list_view": 1,
    "label": "Gross weight (kg)",
-   "read_only": 0
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,

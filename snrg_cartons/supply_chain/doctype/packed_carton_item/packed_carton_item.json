@@ -46,7 +46,8 @@
    "fieldname": "item_weight_kg",
    "fieldtype": "Float",
    "label": "Item weight (kg)",
-   "read_only": 0
+   "read_only": 1,
+   "hidden": 1
   }
  ],
  "index_web_pages_for_search": 1,

@@ -1,11 +1,16 @@
 import os
 
 app_name = "snrg_cartons"
-app_title = "SNRG Cartons"
+app_title = "SNRG Supply Chain"
 app_publisher = "SNRG Electricals"
-app_description = "Carton Management System"
+app_description = "Carton Management & Supply Chain Module"
 app_email = "admin@snrgelectricals.com"
 app_license = "mit"
+
+# Fixtures — data that ships with the app and is imported on bench migrate
+fixtures = [
+    {"dt": "Freight Zone"}
+]
 
 # Includes in <head>
 # ------------------

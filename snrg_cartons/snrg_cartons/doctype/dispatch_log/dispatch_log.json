@@ -25,6 +25,10 @@
   "linked_documents_section",
   "status",
   "delivery_note",
+  "freight_section",
+  "freight_quotation",
+  "selected_transporter",
+  "freight_amount",
   "amended_from"
  ],
  "fields": [
@@ -159,6 +163,34 @@
    "label": "Delivery note",
    "options": "Delivery Note",
    "read_only": 1
+  },
+  {
+   "fieldname": "freight_section",
+   "fieldtype": "Section Break",
+   "label": "Freight"
+  },
+  {
+   "fieldname": "freight_quotation",
+   "fieldtype": "Link",
+   "label": "Freight Quotation",
+   "options": "Freight Quotation",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "selected_transporter",
+   "fieldtype": "Link",
+   "label": "Selected Transporter",
+   "options": "Transporter",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "freight_amount",
+   "fieldtype": "Currency",
+   "label": "Freight Amount (₹)",
+   "read_only": 1,
+   "no_copy": 1
   },
   {
    "fieldname": "amended_from",

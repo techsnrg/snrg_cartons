@@ -22,6 +22,39 @@ frappe.ui.form.on('Dispatch Log CTN', {
 });
 
 frappe.ui.form.on('Dispatch Log', {
+    refresh: function(frm) {
+        // Freight quote button on submitted dispatch logs
+        if (frm.doc.docstatus === 1) {
+            if (frm.doc.freight_quotation) {
+                frm.add_custom_button(__('View Freight Quote'), function() {
+                    frappe.set_route('Form', 'Freight Quotation', frm.doc.freight_quotation);
+                }, __('Freight'));
+            } else {
+                frm.add_custom_button(__('Get Freight Quote'), function() {
+                    frappe.call({
+                        method: 'snrg_cartons.snrg_cartons.supply_chain.doctype.freight_quotation.freight_quotation.create_from_dispatch',
+                        args: { dispatch_log: frm.doc.name },
+                        freeze: true,
+                        freeze_message: __('Creating Freight Quotation...'),
+                        callback(r) {
+                            if (!r.exc && r.message) {
+                                frappe.set_route('Form', 'Freight Quotation', r.message);
+                                frm.reload_doc();
+                            }
+                        }
+                    });
+                }, __('Freight'));
+            }
+
+            // Show freight summary if finalized
+            if (frm.doc.selected_transporter && frm.doc.freight_amount) {
+                frm.dashboard.set_headline_alert(
+                    `<span class="indicator green">Freight: <strong>${frm.doc.selected_transporter}</strong> — ₹${frappe.format(frm.doc.freight_amount, {fieldtype: 'Currency'})}</span>`
+                );
+            }
+        }
+    },
+
     setup: function(frm) {
         frm.set_query("carton_id", "cartons", function() {
             return {

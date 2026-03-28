@@ -3,7 +3,7 @@ name = "snrg_cartons"
 authors = [
     { name = "SNRG Electricals", email = "admin@snrgelectricals.com"}
 ]
-description = "Carton Management System"
+description = "Supply Chain, Freight & Carton Management for SNRG Electricals"
 requires-python = ">=3.10"
 readme = "README.md"
 dynamic = ["version"]

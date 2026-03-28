@@ -101,6 +101,7 @@
   {
    "fieldname": "items",
    "fieldtype": "Table",
+   "in_place_edit": 1,
    "label": "Items",
    "options": "Packed Carton Item",
    "reqd": 1
